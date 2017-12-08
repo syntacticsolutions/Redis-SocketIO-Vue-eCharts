@@ -8,6 +8,7 @@ module.exports = {
     browser: true
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
+  // Tried to use AirBnB but Vue doesn't like it.
   extends: [
     'standard'
   ],
@@ -25,6 +26,8 @@ module.exports = {
   // add your custom rules here
   'rules': {
     // allow paren-less arrow functions
+    'indent':0,
+    'no-tabs':0,
     'arrow-parens': 0,
     'one-var': 0,
     'import/first': 0,

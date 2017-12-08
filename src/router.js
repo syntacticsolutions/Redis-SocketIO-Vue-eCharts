@@ -26,6 +26,7 @@ export default new VueRouter({
 
   routes: [
     { path: '/', component: load('Hello') },
+    { path: '/vue_chart_tiles', component: load('VueChartTiles') },
 
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found
