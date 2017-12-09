@@ -1,5 +1,6 @@
 <template>
   <div class="chart-container">
+      <q-icon name="close" @click="closeModal()" class="modal-close"></q-icon>
       <div ref="chart" class="e-chart" @click="showInModal()"></div>
   </div>
 </template>
@@ -7,9 +8,13 @@
 <script>
 
 var echarts = require('echarts')
+import { QIcon } from 'quasar';
 import _ from 'lodash'
 
 export default {
+    components: {
+        QIcon
+    },
     data () {
         return {
             chart: {},
@@ -27,7 +32,8 @@ export default {
                     type: 'bar',
                     data: [5, 20, 36, 10, 10, 20]
                 }]
-            }
+            },
+            modalActive: false,
         }
     },
     methods: {
@@ -39,6 +45,21 @@ export default {
                 width: '800px',
                 height: '600px'
             })
+
+            this.modalActive = true;
+        },
+        closeModal(){
+            this.chart.resize({
+                width: '500px',
+                height: '300px'
+            })
+
+            let classname = this.chart._dom.parentNode.className;
+            this.chart._dom.parentNode.className = classname.replace(' chart-modal', '');
+
+
+
+            this.modalActive = false;
         }
     },
     mounted () {
@@ -79,5 +100,10 @@ export default {
         bottom: 0;
         right: 0;
         margin: auto auto;
+    }
+
+    .modal-close {
+        position: relative;
+        float:right;
     }
 </style>
