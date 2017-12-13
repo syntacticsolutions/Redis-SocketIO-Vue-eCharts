@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container">
+  <div class="chart-container" @mousedown="initDrag($event)" @mouseup="stopDrag($event)">
       <q-icon name="close" @click="closeModal()" class="modal-close"></q-icon>
       <div ref="chart" class="e-chart" @click="showInModal()"></div>
   </div>
@@ -8,8 +8,9 @@
 <script>
 
 var echarts = require('echarts')
-import { QIcon } from 'quasar';
+import { QIcon, QCard } from 'quasar';
 import _ from 'lodash'
+import dateFormat from 'moment/format';
 
 export default {
     components: {
@@ -34,19 +35,20 @@ export default {
                 }]
             },
             modalActive: false,
+            dragging: false,
         }
     },
     methods: {
         showInModal(){
             //make modal resize at the same time.
-            this.chart._dom.parentNode.className += ' chart-modal'
+            // this.chart._dom.parentNode.className += ' chart-modal'
 
             this.chart.resize({
                 width: '800px',
                 height: '600px'
             })
 
-            this.modalActive = true;
+            // this.modalActive = true;
         },
         closeModal(){
             this.chart.resize({
@@ -57,9 +59,18 @@ export default {
             let classname = this.chart._dom.parentNode.className;
             this.chart._dom.parentNode.className = classname.replace(' chart-modal', '');
 
-
-
             this.modalActive = false;
+        },
+        initDrag(e){
+            let target = e.target.style;
+            this.dragging = true;
+            target.position = 'absolute';
+
+            console.log(target);
+
+        },
+        stopDrag(e){
+            this.dragging = false;
         }
     },
     mounted () {
@@ -100,6 +111,12 @@ export default {
         bottom: 0;
         right: 0;
         margin: auto auto;
+        z-index: 1;
+    }
+
+    .modal-chart {
+        margin: 0 0;
+        height: auto;
     }
 
     .modal-close {
